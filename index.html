@@ -1,0 +1,609 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Catálogo STAND UP</title><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;padding:0}img{max-width:100%}[hidden]{display:none!important}</style></head><body>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&family=Yellowtail&display=swap">
+<style>
+/* Layout: una sola columna tipo app de celular; cabecera roja fija, rastro de pasos arriba y una pregunta por pantalla. */
+:root{
+  --bg:#FAF6F6; --surface:#FFFFFF; --ink:#1A1D38; --muted:#676B83; --line:#E9E1E3;
+  --brand:#D41F2D; --brand-ink:#FFFFFF; --tint:#FCE9EB; --ok:#1F7A4D;
+  --display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
+  --body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --script:"Yellowtail","Brush Script MT",cursive;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#13141E; --surface:#1D1F2E; --ink:#F2EFF4; --muted:#A4A7BD; --line:#2F3247;
+  --brand:#E23441; --brand-ink:#FFFFFF; --tint:#35202A; --ok:#5CC492; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#13141E; --surface:#1D1F2E; --ink:#F2EFF4; --muted:#A4A7BD; --line:#2F3247;
+  --brand:#E23441; --brand-ink:#FFFFFF; --tint:#35202A; --ok:#5CC492; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.45}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--brand);color:var(--brand-ink)}
+.top-in{max-width:760px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:12px}
+.logo{background:none;border:0;padding:0;color:var(--brand-ink);text-align:left;display:flex;flex-direction:column;line-height:1}
+.logo b{font-family:var(--script);font-weight:400;font-size:30px}
+.logo span{font-size:11px;letter-spacing:.12em;text-transform:uppercase;opacity:.9;margin-top:2px}
+.cartbtn{margin-left:auto;background:var(--brand-ink);color:var(--brand);border:0;border-radius:999px;padding:9px 16px;font-weight:700;white-space:nowrap}
+
+.wrap{max-width:760px;margin:0 auto;padding-inline:16px;padding-block:18px 56px;display:flex;flex-direction:column;gap:18px}
+.trail{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.trail button{background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:14px;font-weight:600}
+.trail .back{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(28px,7vw,40px);line-height:1.05;margin:0;text-wrap:balance}
+h2{font-family:var(--display);font-weight:600;font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0}
+.lead{color:var(--muted);margin:0;max-width:60ch}
+.stack{display:flex;flex-direction:column;gap:10px}
+.group{display:flex;flex-direction:column;gap:10px}
+
+.big{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.big button{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px 20px;text-align:left;display:flex;flex-direction:column;gap:6px;min-width:0}
+.big button strong{font-family:var(--display);font-weight:800;font-size:26px;line-height:1.05}
+.big button span{color:var(--muted);font-size:15px}
+.big button.hot{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
+.big button.hot span{color:var(--brand-ink);opacity:.9}
+
+.list{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px}
+.row{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 14px;display:flex;justify-content:space-between;align-items:center;gap:10px;text-align:left;font-weight:600;min-width:0}
+.row small{font-weight:500;color:var(--muted);font-size:13px;white-space:nowrap}
+.row[disabled]{cursor:default;background:transparent;border-style:dashed;color:var(--muted)}
+
+.sizes{display:flex;flex-wrap:wrap;gap:8px}
+.sizes button{min-width:58px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-family:var(--display);font-weight:800;font-size:20px;font-variant-numeric:tabular-nums}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:0;overflow:hidden;text-align:left;display:flex;flex-direction:column;min-width:0}
+.ph{aspect-ratio:4/3;background:var(--tint);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:800;font-size:44px;color:var(--brand)}
+.card .tx{padding:10px 12px 12px;display:flex;flex-direction:column;gap:2px}
+.card .nm{font-weight:700}
+.card .mt{font-size:13px;color:var(--muted)}
+.price{font-family:var(--display);font-weight:800;font-variant-numeric:tabular-nums}
+.noprice{font-size:13px;color:var(--muted);font-weight:600}
+
+.detail{background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.detail .ph{aspect-ratio:16/9;font-size:72px}
+.detail .tx{padding:18px;display:flex;flex-direction:column;gap:14px}
+.facts{display:grid;grid-template-columns:auto 1fr;gap:4px 16px;margin:0;font-size:15px}
+.facts dt{color:var(--muted)} .facts dd{margin:0;font-weight:600}
+.bigprice{font-family:var(--display);font-weight:800;font-size:40px;line-height:1;font-variant-numeric:tabular-nums;white-space:nowrap}
+.qty{display:flex;align-items:center;gap:10px}
+.qty button{width:40px;height:40px;border-radius:10px;border:1px solid var(--line);background:var(--bg);font-size:20px;font-weight:700}
+.qty output{min-width:28px;text-align:center;font-weight:700;font-variant-numeric:tabular-nums}
+.actions{display:flex;flex-wrap:wrap;gap:8px}
+.btn{border-radius:12px;padding:13px 18px;font-weight:700;border:1px solid var(--ink);background:transparent}
+.btn.primary{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
+
+.line{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--line)}
+.line .g{flex:1;min-width:0}
+.line .g b{display:block}
+.line .g span{font-size:13px;color:var(--muted)}
+.line .rm{background:none;border:0;color:var(--muted);text-decoration:underline;font-size:13px;padding:0}
+.total{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-top:12px}
+.note{border:1px dashed var(--muted);border-radius:12px;padding:12px 14px;font-size:14px;color:var(--muted)}
+.empty{border:1px dashed var(--line);border-radius:14px;padding:22px;color:var(--muted)}
+textarea{width:100%;min-height:150px;font:14px/1.4 var(--body);padding:12px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);resize:vertical}
+.toast{font-weight:600;color:var(--ok);font-size:14px;min-height:1.4em}
+</style>
+
+<header class="top"><div class="top-in">
+  <button class="logo" id="home" aria-label="Inicio"><b>Stand UP</b><span>Crecemos contigo</span></button>
+  <button class="cartbtn" id="cartbtn">Mi pedido · 0</button>
+</div></header>
+<main class="wrap" id="app"></main>
+
+<script>
+const RAW = `CANGURO|add|U|0001|6,8,10,12,14,16,S,M,L,XL,XXL
+CHALECO|add|U|0012|6,8,10,12,14,16,S
+CHOMPA|add|M|0019|6
+CHOMPA|add|V|0020|6
+CHOMPA|add|M|0021|8
+CHOMPA|add|V|0022|8
+CHOMPA|add|M|0023|10
+CHOMPA|add|V|0024|10
+CHOMPA|add|M|0025|12
+CHOMPA|add|V|0026|12
+CHOMPA|add|M|0027|14
+CHOMPA|add|V|0028|14
+CHOMPA|add|M|0029|16
+CHOMPA|add|V|0030|16
+CHOMPA|add|M|0031|S
+CHOMPA|add|V|0032|S
+CHOMPA|add|M|0033|M
+CHOMPA|add|V|0034|M
+CHOMPA|add|M|0035|L
+CHOMPA|add|V|0036|L
+CHOMPA|add|M|0037|XL
+CHOMPA|add|V|0038|XL
+CHOMPA|add|M|0039|XXL
+CHOMPA|add|V|0040|XXL
+DEPORTIVO|add|U|0041|4,6,8,10,12,14,16,S,M,L,XL,XXL,6,8,10,12,14,16,S,M,L,XL,XXL
+POLERA|add|U|0064|4,6,8,10,12,14,16,S,M,L,XL,XXL
+SHORT|add|M|0076|6
+SHORT|add|V|0077|6
+SHORT|add|M|0078|8
+SHORT|add|V|0079|8
+SHORT|add|M|0080|10
+SHORT|add|V|0081|10
+SHORT|add|M|0082|12
+SHORT|add|V|0083|12
+SHORT|add|M|0084|14
+SHORT|add|V|0085|14
+SHORT|add|M|0086|16
+SHORT|add|V|0087|16
+SHORT|add|M|0088|S
+SHORT|add|V|0089|S
+SHORT|add|M|0090|M
+SHORT|add|V|0091|M
+SHORT|add|M|0092|L
+SHORT|add|V|0093|L
+SHORT|add|M|0094|XL
+SHORT|add|V|0095|XL
+SHORT|add|M|0096|XXL
+SHORT|add|V|0097|XXL
+BLUSA|cic|M|0098|6,8,10,12,14,XS,S,M,L,XL,XXL
+CAMISA|cic|V|0109|6,8,10,12,14,14.5,15,15.5,16,16.5,17
+CANGURO|cic|U|0120|6,8,10,12,14,16,S,M,L,XL,XXL
+CHALECO|cic|U|0131|6,8,10,12,14,16,S
+CHOMPA|cic|M|0138|6
+CHOMPA|cic|V|0139|6
+CHOMPA|cic|M|0140|8
+CHOMPA|cic|V|0141|8
+CHOMPA|cic|M|0142|10
+CHOMPA|cic|V|0143|10
+CHOMPA|cic|M|0144|12
+CHOMPA|cic|V|0145|12
+CHOMPA|cic|M|0146|14
+CHOMPA|cic|V|0147|14
+CHOMPA|cic|M|0148|16
+CHOMPA|cic|V|0149|16
+CHOMPA|cic|M|0150|S
+CHOMPA|cic|V|0151|S
+CHOMPA|cic|M|0152|M
+CHOMPA|cic|V|0153|M
+CHOMPA|cic|M|0154|L
+CHOMPA|cic|V|0155|L
+CHOMPA|cic|M|0156|XL
+CHOMPA|cic|V|0157|XL
+CHOMPA|cic|M|0158|XXL
+CHOMPA|cic|V|0159|XXL
+CORBATA|cic|U|0160|CON LIGA,LARGAS
+BUZO|cic|U|0162|6,8,10,12,14,16,S,M,L,XL,XXL
+CHAQUETA|cic|U|0173|6,8,10,12,14,16,S,M,L,XL,6,8,10,12,14,16,S,M,L,XL,XXL
+DEPORTIVO|cic|U|0194|6,8,10,12,14,16,S,M,L,XL,XXL,6,8,10,12,14,16,S,M,L,XL,XXL,6,8,10,12,14,16,S,M,L,XL,XXL,6,8,10,12,14,16,S,M,L,XL,XXL
+MEDIAS|cic|M|0238|10-12
+MEDIAS|cic|V|0239|10-12,4-6
+MEDIAS|cic|M|0241|4-6,6-8
+MEDIAS|cic|V|0243|6-8
+MEDIAS|cic|M|0244|8-10
+MEDIAS|cic|V|0245|8-10
+MEDIAS|cic|M|0246|MAYOR
+MEDIAS|cic|V|0247|MAYOR
+POLERA|cic|U|0248|6,6,8,8,10,10,12,12,14,14,16,16,S,S,M,M,L,L,XL,XL,XXL,XXL
+SHORT|cic|M|0270|6
+SHORT|cic|V|0271|6
+SHORT|cic|M|0272|8
+SHORT|cic|V|0273|8
+SHORT|cic|M|0274|10
+SHORT|cic|V|0275|10
+SHORT|cic|M|0276|12
+SHORT|cic|V|0277|12
+SHORT|cic|M|0278|14
+SHORT|cic|V|0279|14
+SHORT|cic|M|0280|16
+SHORT|cic|V|0281|16
+SHORT|cic|M|0282|S
+SHORT|cic|V|0283|S
+SHORT|cic|M|0284|M
+SHORT|cic|V|0285|M
+SHORT|cic|M|0286|L
+SHORT|cic|V|0287|L
+SHORT|cic|M|0288|XL
+SHORT|cic|V|0289|XL
+SHORT|cic|M|0290|XXL
+SHORT|cic|V|0291|XXL
+BLUSA|ls|M|0292|6,8,10,12,14,XS,S,M,L,XL,XXL
+CAMISA|ls|V|0303|6,8,10,12,14,14.5,15,15.5,16,16.5,17
+CHOMPA|ls|M|0314|6
+CHOMPA|ls|V|0315|6
+CHOMPA|ls|M|0316|8
+CHOMPA|ls|V|0317|8
+CHOMPA|ls|M|0318|10
+CHOMPA|ls|V|0319|10
+CHOMPA|ls|M|0320|12
+CHOMPA|ls|V|0321|12
+CHOMPA|ls|M|0322|14
+CHOMPA|ls|V|0323|14
+CHOMPA|ls|M|0324|16
+CHOMPA|ls|V|0325|16
+CHOMPA|ls|M|0326|S
+CHOMPA|ls|V|0327|S
+CHOMPA|ls|M|0328|M
+CHOMPA|ls|V|0329|M
+CHOMPA|ls|M|0330|L
+CHOMPA|ls|V|0331|L
+CHOMPA|ls|M|0332|XL
+CHOMPA|ls|V|0333|XL
+CHOMPA|ls|M|0334|XXL
+CHOMPA|ls|V|0335|XXL
+CORBATA|ls|U|0336|CON LIGA,LARGAS
+DEPORTIVO|ls|U|0338|6,8,10,12,14,16,S,M,L,XL,XXL
+POLERA|ls|U|0360|6,8,10,12,14,16,S,M,L,XL,XXL
+SHORT|ls|M|0371|6
+SHORT|ls|V|0372|6
+SHORT|ls|M|0373|8
+SHORT|ls|V|0374|8
+SHORT|ls|M|0375|10
+SHORT|ls|V|0376|10
+SHORT|ls|M|0377|12
+SHORT|ls|V|0378|12
+SHORT|ls|M|0379|14
+SHORT|ls|V|0380|14
+SHORT|ls|M|0381|16
+SHORT|ls|V|0382|16
+SHORT|ls|M|0383|S
+SHORT|ls|V|0384|S
+SHORT|ls|M|0385|M
+SHORT|ls|V|0386|M
+SHORT|ls|M|0387|L
+SHORT|ls|V|0388|L
+SHORT|ls|M|0389|XL
+SHORT|ls|V|0390|XL
+SHORT|ls|M|0391|XXL
+SHORT|ls|V|0392|XXL
+CANGURO|mp|U|0393|6,8,10,12
+CHAMARRA|mp|U|0397|8,10,12
+CHOMPA|mp|M|0400|6
+CHOMPA|mp|V|0401|6
+CHOMPA|mp|M|0402|8
+CHOMPA|mp|V|0403|8
+CHOMPA|mp|M|0404|10
+CHOMPA|mp|V|0405|10
+CHOMPA|mp|M|0406|12
+CHOMPA|mp|V|0407|12
+CORBATA|mp|U|0408|CON LIGA,LARGAS
+DEPORTIVO|mp|U|0410|6,8,10,12
+GORRA|mp|U|0414|GRANDE
+MEDIAS|mp|U|0415|4-6
+BUZO|mp|U|0416|6,8,10,12
+MORRAL|mp|U|0420|PEQUEÑO
+PANTALONES|mp|U|0421|4,6,8,10,12
+POLERA|mp|U|0426|6,8,10,12
+SOMBRERO|mp|U|0430|PEQUEÑO
+BLUSA|sc|M|0431|6,8,10,12,14,XS,S,M,L,XL,XXL
+CAMISA|sc|V|0442|6,8,10,12,14,14.5,15,15.5,16,16.5,17
+CANGURO|sc|U|0453|6,6,6,8,8,8,10,10,10,12,12,12,14,14,14,16,16,16,S,S,S,M,M,M,L,L,L,XL,XL,XL,XXL,XXL,XXL
+CHALECO|sc|U|0486|6,6,8,8,10,10,12,12,14,14,16,16,S,S,M,L,XL
+CHAMARRA|sc|U|0503|8,10,12,14,16,S
+CHOMPA|sc|M|0509|6
+CHOMPA|sc|V|0510|6
+CHOMPA|sc|M|0511|8
+CHOMPA|sc|V|0512|8
+CHOMPA|sc|M|0513|10
+CHOMPA|sc|V|0514|10
+CHOMPA|sc|M|0515|12
+CHOMPA|sc|V|0516|12
+CHOMPA|sc|M|0517|14
+CHOMPA|sc|V|0518|14
+CHOMPA|sc|M|0519|16
+CHOMPA|sc|V|0520|16
+CHOMPA|sc|M|0521|S
+CHOMPA|sc|V|0522|S
+CHOMPA|sc|M|0523|M
+CHOMPA|sc|V|0524|M
+CHOMPA|sc|M|0525|L
+CHOMPA|sc|V|0526|L
+CHOMPA|sc|M|0527|XL
+CHOMPA|sc|V|0528|XL
+CHOMPA|sc|M|0529|XXL
+CHOMPA|sc|V|0530|XXL
+CORBATA|sc|U|0531|CON LIGA,LARGAS
+DEPORTIVO|sc|U|0533|4,6,8,10,12,14,16,S,M,L,XL,XXL
+FALDA|sc|M|0545|6,8,10,12,14,16,S,M,L,XL
+GORRA|sc|U|0555|GRANDE,GRANDE,PEQUEÑO
+MEDIAS|sc|M|0558|10-12
+MEDIAS|sc|V|0559|10-12
+MEDIAS|sc|U|0560|10-12
+MEDIAS|sc|M|0561|4-6
+MEDIAS|sc|V|0562|4-6
+MEDIAS|sc|U|0563|4-6
+MEDIAS|sc|M|0564|6-8
+MEDIAS|sc|V|0565|6-8
+MEDIAS|sc|U|0566|6-8
+MEDIAS|sc|M|0567|8-10
+MEDIAS|sc|V|0568|8-10
+MEDIAS|sc|U|0569|8-10
+MEDIAS|sc|M|0570|MAYOR
+MEDIAS|sc|V|0571|MAYOR
+MEDIAS|sc|U|0572|MAYOR
+MORRAL|sc|U|0573|PEQUEÑO
+PANTALONES|sc|M|0574|6
+PANTALONES|sc|V|0575|6
+PANTALONES|sc|M|0576|8
+PANTALONES|sc|V|0577|8
+PANTALONES|sc|M|0578|10
+PANTALONES|sc|V|0579|10
+PANTALONES|sc|M|0580|12
+PANTALONES|sc|V|0581|12
+PANTALONES|sc|M|0582|14
+PANTALONES|sc|V|0583|14
+PANTALONES|sc|M|0584|16
+PANTALONES|sc|V|0585|16
+PANTALONES|sc|M|0586|36
+PANTALONES|sc|V|0587|36
+PANTALONES|sc|M|0588|38
+PANTALONES|sc|V|0589|38
+PANTALONES|sc|M|0590|40
+PANTALONES|sc|V|0591|40
+PANTALONES|sc|M|0592|42
+PANTALONES|sc|V|0593|42
+PANTALONES|sc|M|0594|44
+PANTALONES|sc|V|0595|44
+PANTALONES|sc|M|0596|46
+PANTALONES|sc|V|0597|46
+PANTY|sc|M|0598|10-12,6-8,8-10,S,M,L
+POLERA|sc|U|0604|6,8,10,12,14,16,S,M,L,XL,XXL
+SHORT|sc|V|0615|6,8,10,12,14,16,S,M,L,XL,XXL
+SHORT|sc|M|0626|S,M,L,XL
+YAMPER|sc|M|0630|6,8,10,12,14,16,S,M,L,XL
+BLUSA|uee|M|0640|6,8,10,12,14,16,XS,S,M,L,XL,XXL
+CAMISA|uee|V|0652|6,8,10,12,14,14.5,15,15.5,16,16.5,17
+CHOMPA|uee|U|0663|6,8,10,12,14,16,S,M,L,XL,XXL
+CORBATA|uee|U|0674|CON LIGA,LARGAS
+DEPORTIVO|uee|U|0676|4,6,8,10,12,14,16,S,M,L,XL,XXL,6,8,10,12,14,16,S,M,L,XL,XXL
+POLERA|uee|U|0699|6,8,10,12,14,16,S,M,L,XL,XXL
+SHORT|uee|M|0710|6
+SHORT|uee|V|0711|6
+SHORT|uee|M|0712|8
+SHORT|uee|V|0713|8
+SHORT|uee|M|0714|10
+SHORT|uee|V|0715|10
+SHORT|uee|M|0716|12
+SHORT|uee|V|0717|12
+SHORT|uee|M|0718|14
+SHORT|uee|V|0719|14
+SHORT|uee|M|0720|16
+SHORT|uee|V|0721|16
+SHORT|uee|M|0722|S
+SHORT|uee|V|0723|S
+SHORT|uee|M|0724|M
+SHORT|uee|V|0725|M
+SHORT|uee|M|0726|L
+SHORT|uee|V|0727|L
+SHORT|uee|M|0728|XL
+SHORT|uee|V|0729|XL
+SHORT|uee|M|0730|XXL
+SHORT|uee|V|0731|XXL
+YAMPER|add|M|0732|6,8,10,12,14,16,38
+CALZA|add|M|0739|6,8,10,12,14,16
+FALDA|add|M|0745|6,8,10,12,14,36,S,M,L,XL,XXL
+PANTALONES|add|M|0756|4
+PANTALONES|add|V|0757|4
+PANTALONES|add|M|0758|6
+PANTALONES|add|V|0759|6
+PANTALONES|add|M|0760|8
+PANTALONES|add|V|0761|8
+PANTALONES|add|M|0762|10
+PANTALONES|add|V|0763|10
+PANTALONES|add|M|0764|12
+PANTALONES|add|V|0765|12
+PANTALONES|add|M|0766|14
+PANTALONES|add|V|0767|14
+PANTALONES|add|M|0768|36
+PANTALONES|add|V|0769|36
+PANTALONES|add|M|0770|38
+PANTALONES|add|V|0771|38
+PANTALONES|add|M|0772|40
+PANTALONES|add|V|0773|40
+PANTALONES|add|M|0774|42
+PANTALONES|add|V|0775|42
+PANTALONES|add|M|0776|44
+PANTALONES|add|V|0777|44
+PANTALONES|add|M|0778|46
+PANTALONES|add|V|0779|46,4
+PANTALONES|add|M|0781|6
+PANTALONES|add|V|0782|8
+PANTALONES|add|M|0783|10
+PANTALONES|add|V|0784|12
+PANTALONES|add|M|0785|14
+PANTALONES|add|V|0786|16
+PANTALONES|add|M|0787|38
+PANTALONES|add|V|0788|40
+PANTALONES|add|M|0789|42
+PANTALONES|add|V|0790|44
+BUZO|add|U|0791|6
+CHALECO|sc|U|0792|6,8,10,12,14,16,S,M,L,XL
+YAMPER|cic|M|0802|6,8,10,12,14,16,S,M,L
+PANTY|cic|M|0811|6-8,8-10
+FALDA|cic|M|0813|6,8,10,12,34,36,38,40,42,44,46
+PANTALONES|cic|V|0824|6,8,10,12,14,36,38,40,42,44,46,48,50
+YAMPER|uee|M|0837|6,8,10,12,14,36,XS,S,M,L
+MEDIAS|uee|M|0847|10-12
+MEDIAS|uee|V|0848|10-12,4-6
+MEDIAS|uee|M|0850|4-6,6-8
+MEDIAS|uee|V|0852|6-8
+MEDIAS|uee|M|0853|8-10
+MEDIAS|uee|V|0854|8-10
+MEDIAS|uee|M|0855|MAYOR
+MEDIAS|uee|V|0856|MAYOR 38-42
+PANTY|uee|M|0857|10-12,6-8,8-10,S,M,L
+GORRA|uee|U|0863|GRANDE
+BUZO|uee|U|0864|4,6,8,10,12,14,16,S,M,L,XL,XXL
+CANGURO|uee|U|0876|6,8,10,12,14,16,S,M,L,XL,XXL
+CHALECO|uee|U|0887|6,8,10,12,14,16,S
+FALDA|uee|M|0894|6,8,10,12,34,36,38,40,42,44,46
+PANTALONES|uee|V|0905|4,6,8,10,12,14,36,38,40,42,44,46
+PANTALONES|uee|M|0917|4,6,8,10,12,14,36,38,40,42,44,46
+YAMPER|ls|M|0929|6,8,10,12,14,16,38,40,42
+PANTALONES|ls|V|0938|4,6,8,10,12,14,36,38,40,42,44,46,48
+PANTALONES|ls|M|0951|4,6,8,10,12,14,36,38,40,42,44,46
+FALDA|ls|M|0963|8,10,12,14,16,38,40,42,44
+CHOMPA|nav|U|0972|6,8,10,12,14,16,S,M,L,XL,XXL
+DEPORTIVO|nav|U|0983|6,8,10,12,14,16,S,M,L,XL,XXL
+POLERA|nav|U|0994|6,8,10,12,14,16,S`;
+const PRICES = "0001:200,0002:200,0003:200,0004:220,0005:220,0006:240,0007:240,0008:240,0009:240,0010:240,0011:250";
+const ITEMS = [];
+const _P = Object.fromEntries(PRICES.split(",").map(x => x.split(":")).map(([k,v]) => [k, Number(v)]));
+RAW.split("\n").forEach(l => { const [g,sc,sx,c,sz] = l.split("|"); sz.split(",").forEach((s,i) => { const code = String(Number(c)+i).padStart(4,"0"); ITEMS.push([code,g,s,sc,sx,_P[code] ?? null]); }); });
+
+const SCHOOLS = [['sc','San Calixto'],['cic','Inglés Católico'],['uee','Unidad Educativa del Ejército'],['add','Amor de Dios'],['si','San Ignacio'],['as','American School'],['cds','Colegio del Sur'],['mp','Macario Pinilla'],['sa','Santa Ana'],['idef','IDEF Bancario'],['nav','Naval'],['rg','Rosa Gattorno'],['ls','La Salle'],['mc','Unidad Educativa Medina Celi'],['lp','Los Pinos']];
+const SNAME = Object.fromEntries(SCHOOLS);
+const GNAME = {V:'Varón', M:'Mujer'};
+const NAMES = {PANTALONES:'Pantalón'};
+const ACC = new Set(['MEDIAS','PANTY','CORBATA','GORRA','MORRAL','SOMBRERO']);
+const ORDER = ['CHOMPA','CAMISA','BLUSA','PANTALONES','FALDA','YAMPER','CHALECO','CORBATA','CHAQUETA','CHAMARRA','CANGURO','BUZO','DEPORTIVO','POLERA','SHORT','CALZA','MEDIAS','PANTY','GORRA','SOMBRERO','MORRAL'];
+const SIZE_GROUPS = [
+  ['Niño y niña', ['4','6','8','10','12','14','16']],
+  ['Juvenil y adulto', ['XS','S','M','L','XL','XXL']],
+  ['Cintura (pantalón y falda)', ['34','36','38','40','42','44','46','48','50']],
+  ['Cuello de camisa', ['14.5','15','15.5','16.5','17']]
+];
+const CASUAL = [
+  ['Parte de arriba', 'Chaqueta, chamarra, chaleco'],
+  ['Interior', 'Polera, polerón, sudadera, camisa o blusa'],
+  ['Parte inferior', 'Pantalón']
+];
+
+// número de modelo cuando hay varias prendas iguales en la misma talla
+const seen = {};
+const DB = ITEMS.map(r => { const k = r[3]+'|'+r[1]+'|'+r[4]+'|'+r[2]; seen[k] = (seen[k]||0)+1;
+  return {code:r[0], g:r[1], size:r[2], school:r[3], sex:r[4], price:r[5], k, n:seen[k]}; });
+const BYCODE = Object.fromEntries(DB.map(i => [i.code, i]));
+const COUNT = {}; DB.forEach(i => COUNT[i.school] = (COUNT[i.school]||0)+1);
+
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const gname = g => NAMES[g] || g.charAt(0) + g.slice(1).toLowerCase();
+const title = i => gname(i.g) + (seen[i.k] > 1 ? ' · modelo ' + i.n : '');
+const money = p => 'Bs. ' + p;
+const rank = g => { const x = ORDER.indexOf(g); return x < 0 ? 99 : x; };
+
+let S = {view:'home'};
+let cart = [];
+try { cart = (JSON.parse(localStorage.getItem('su-pedido')) || []).filter(l => BYCODE[l.code]); } catch(e) {}
+const save = () => { try { localStorage.setItem('su-pedido', JSON.stringify(cart)); } catch(e) {} };
+
+const pool = () => DB.filter(i => i.school === S.school && (i.sex === S.sex || i.sex === 'U'));
+const app = document.getElementById('app');
+
+function go(patch){ S = Object.assign({}, S, patch); render(); window.scrollTo(0,0); }
+
+function trail(){
+  const t = [];
+  const add = (label, patch) => t.push('<button data-go=\'' + esc(JSON.stringify(patch)) + '\'>' + esc(label) + '</button>');
+  if (S.view === 'home') return '';
+  if (S.view === 'pay') { return '<nav class="trail"><button class="back" data-go=\'' + esc(JSON.stringify(S.prev || {view:'home'})) + '\'>← Seguir eligiendo</button></nav>'; }
+  add('Inicio', {view:'home'});
+  if (S.view.startsWith('casual')) { add('Ropa casual', {view:'casual'}); if (S.csex) add(GNAME[S.csex], {view:'casual2'}); }
+  else {
+    add('Uniformes', {view:'schools'});
+    if (S.school && S.view !== 'schools') add(SNAME[S.school], {view:'sex'});
+    if (S.sex && ['size','items','item'].includes(S.view)) add(GNAME[S.sex], {view:'size'});
+    if (S.size && ['items','item'].includes(S.view)) add(S.size === '*' ? 'Accesorios' : 'Talla ' + S.size, {view:'items'});
+  }
+  return '<nav class="trail" aria-label="Pasos">' + t.join('') + '</nav>';
+}
+
+function card(i){
+  return '<button class="card" data-go=\'' + esc(JSON.stringify({view:'item', code:i.code})) + '\'>' +
+    '<div class="ph" aria-hidden="true">' + esc(gname(i.g).charAt(0)) + '</div><div class="tx">' +
+    '<span class="nm">' + esc(title(i)) + '</span>' +
+    (S.size === '*' ? '<span class="mt">Talla ' + esc(i.size) + '</span>' : '') +
+    (i.price != null ? '<span class="price">' + money(i.price) + '</span>' : '<span class="noprice">Precio por confirmar</span>') +
+    '</div></button>';
+}
+
+const VIEWS = {
+  home(){
+    return '<h1>¿Qué estás buscando?</h1><div class="big">' +
+      '<button class="hot" data-go=\'{"view":"schools"}\'><strong>Uniformes escolares</strong><span>Elige el colegio, la talla y la prenda</span></button>' +
+      '<button data-go=\'{"view":"casual"}\'><strong>Ropa casual</strong><span>Chamarras, poleras, pantalones</span></button></div>';
+  },
+  schools(){
+    return '<h1>¿De qué colegio?</h1><div class="list">' + SCHOOLS.map(([k,n]) => COUNT[k]
+      ? '<button class="row" data-go=\'' + esc(JSON.stringify({view:'sex', school:k, sex:null, size:null})) + '\'>' + esc(n) + '<small>' + COUNT[k] + ' prendas</small></button>'
+      : '<button class="row" disabled>' + esc(n) + '<small>Próximamente</small></button>').join('') + '</div>';
+  },
+  sex(){
+    return '<h1>' + esc(SNAME[S.school]) + '</h1><p class="lead">¿Para quién es el uniforme?</p><div class="big">' +
+      ['V','M'].map(x => '<button data-go=\'' + esc(JSON.stringify({view:'size', sex:x, size:null})) + '\'><strong>' + GNAME[x] + '</strong></button>').join('') + '</div>';
+  },
+  size(){
+    const p = pool(), main = new Set(p.filter(i => !ACC.has(i.g)).map(i => i.size)), acc = p.filter(i => ACC.has(i.g));
+    let h = '<h1>¿Qué talla buscas?</h1>';
+    SIZE_GROUPS.forEach(([label, sizes]) => { const have = sizes.filter(s => main.has(s)); if (!have.length) return;
+      h += '<div class="group"><h2>' + label + '</h2><div class="sizes">' + have.map(s => '<button data-go=\'' + esc(JSON.stringify({view:'items', size:s})) + '\'>' + esc(s) + '</button>').join('') + '</div></div>'; });
+    if (acc.length) { const kinds = [...new Set(acc.map(i => gname(i.g).toLowerCase()))].join(', ');
+      h += '<div class="group"><h2>Accesorios</h2><button class="row" data-go=\'{"view":"items","size":"*"}\'>Ver ' + esc(kinds) + '<small>' + acc.length + '</small></button></div>'; }
+    return h;
+  },
+  items(){
+    const p = pool().filter(i => S.size === '*' ? ACC.has(i.g) : (!ACC.has(i.g) && i.size === S.size))
+      .sort((a,b) => rank(a.g) - rank(b.g) || a.n - b.n || a.code.localeCompare(b.code));
+    return '<h1>' + (S.size === '*' ? 'Accesorios' : 'Prendas en talla ' + esc(S.size)) + '</h1><p class="lead">' + esc(SNAME[S.school]) + ' · ' + GNAME[S.sex] + ' · ' + p.length + ' prendas</p>' +
+      (p.length ? '<div class="cards">' + p.map(card).join('') + '</div>' : '<div class="empty">No hay prendas en esta talla.</div>');
+  },
+  item(){
+    const i = BYCODE[S.code]; S.q = S.q || 1;
+    return '<div class="detail"><div class="ph" aria-hidden="true">' + esc(gname(i.g).charAt(0)) + '</div><div class="tx">' +
+      '<h1>' + esc(title(i)) + '</h1>' +
+      '<dl class="facts"><dt>Colegio</dt><dd>' + esc(SNAME[i.school]) + '</dd><dt>Talla</dt><dd>' + esc(i.size) + '</dd><dt>Para</dt><dd>' + ({V:'Varón',M:'Mujer',U:'Varón y mujer'}[i.sex]) + '</dd></dl>' +
+      (i.price != null ? '<div class="bigprice">' + money(i.price) + '</div>' : '<div class="note">Esta prenda todavía no tiene precio cargado. Puedes agregarla al pedido y te confirmamos el precio.</div>') +
+      '<div class="qty"><span>Cantidad</span><button data-q="-1" aria-label="Quitar una">−</button><output id="qty">' + S.q + '</output><button data-q="1" aria-label="Agregar una">+</button></div>' +
+      '<div class="actions"><button class="btn primary" data-add="pay">Ir al pago</button><button class="btn" data-add="stay">Agregar y seguir eligiendo</button></div>' +
+      '<div class="toast" id="toast" role="status"></div></div></div>';
+  },
+  casual(){
+    return '<h1>Ropa casual</h1><p class="lead">¿Para quién?</p><div class="big">' +
+      ['V','M'].map(x => '<button data-go=\'' + esc(JSON.stringify({view:'casual2', csex:x})) + '\'><strong>' + GNAME[x] + '</strong></button>').join('') + '</div>';
+  },
+  casual2(){
+    return '<h1>Ropa casual · ' + GNAME[S.csex] + '</h1><div class="list">' + CASUAL.map(([a,b]) =>
+      '<button class="row" disabled><span>' + a + '<br><small style="white-space:normal">' + b + '</small></span><small>Próximamente</small></button>').join('') + '</div>' +
+      '<div class="empty">Todavía no hay prendas casuales cargadas en el catálogo.</div>';
+  },
+  pay(){
+    if (!cart.length) return '<h1>Tu pedido</h1><div class="empty">Aún no agregaste prendas.</div><div class="actions"><button class="btn primary" data-go=\'{"view":"home"}\'>Ver el catálogo</button></div>';
+    let total = 0, pend = 0, txt = 'Pedido STAND UP\n';
+    const rows = cart.map((l, x) => { const i = BYCODE[l.code]; const sub = i.price != null ? i.price * l.q : null;
+      if (sub == null) pend++; else total += sub;
+      txt += '- ' + l.q + ' x ' + title(i) + ', talla ' + i.size + ', ' + SNAME[i.school] + (sub != null ? ' = Bs. ' + sub : ' = precio por confirmar') + '\n';
+      return '<div class="line"><div class="g"><b>' + l.q + ' × ' + esc(title(i)) + '</b><span>' + esc(SNAME[i.school]) + ' · talla ' + esc(i.size) + '</span><br><button class="rm" data-rm="' + x + '">Quitar</button></div>' +
+        (sub != null ? '<span class="price">' + money(sub) + '</span>' : '<span class="noprice">Por confirmar</span>') + '</div>'; }).join('');
+    txt += 'Total: Bs. ' + total + (pend ? ' + ' + pend + ' prenda(s) con precio por confirmar' : '');
+    return '<h1>Tu pedido</h1><div>' + rows + '<div class="total"><span>Total' + (pend ? ' (sin las prendas por confirmar)' : '') + '</span><span class="bigprice">' + money(total) + '</span></div></div>' +
+      '<div class="group"><h2>Pago</h2><div class="note">Falta configurar: aquí irá la forma de pago de STAND UP (QR, WhatsApp o pago en tienda).</div>' +
+      '<label for="pedido" class="lead">Mientras tanto, copia tu pedido y envíalo a la tienda:</label><textarea id="pedido" readonly>' + esc(txt) + '</textarea>' +
+      '<div class="actions"><button class="btn primary" id="copy">Copiar pedido</button><button class="btn" id="clear">Vaciar pedido</button></div><div class="toast" id="toast" role="status"></div></div>';
+  }
+};
+
+function render(){
+  app.innerHTML = trail() + VIEWS[S.view]();
+  const n = cart.reduce((a,l) => a + l.q, 0);
+  document.getElementById('cartbtn').textContent = 'Mi pedido · ' + n;
+}
+
+document.addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b || b.disabled) return;
+  if (b.id === 'home') return go({view:'home'});
+  if (b.id === 'cartbtn') return go({view:'pay', prev: S.view === 'pay' ? S.prev : Object.assign({}, S, {prev:null})});
+  if (b.dataset.go) { const p = JSON.parse(b.dataset.go); if (p.view === 'item') p.q = 1; return go(p); }
+  if (b.dataset.q) { S.q = Math.max(1, Math.min(99, S.q + Number(b.dataset.q))); document.getElementById('qty').textContent = S.q; return; }
+  if (b.dataset.add) {
+    const l = cart.find(l => l.code === S.code); if (l) l.q += S.q; else cart.push({code:S.code, q:S.q}); save();
+    if (b.dataset.add === 'pay') return go({view:'pay', prev:Object.assign({}, S, {view:'items', prev:null})});
+    render(); document.getElementById('toast').textContent = 'Agregado a tu pedido.'; return;
+  }
+  if (b.dataset.rm) { cart.splice(Number(b.dataset.rm), 1); save(); return render(); }
+  if (b.id === 'clear') { cart = []; save(); return render(); }
+  if (b.id === 'copy') {
+    const ta = document.getElementById('pedido'), t = document.getElementById('toast');
+    const fb = () => { ta.focus(); ta.select(); t.textContent = 'Texto seleccionado: mantén presionado y elige Copiar.'; };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(ta.value).then(() => { t.textContent = 'Pedido copiado.'; }, fb); else fb();
+  }
+});
+render();
+</script>
+
+</body></html>
