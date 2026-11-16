@@ -97,6 +97,10 @@ h2{margin:0;font-family:var(--title);font-weight:600;letter-spacing:.16em;text-t
   background:radial-gradient(70% 80% at 50% 0%, rgba(237,230,216,.18), transparent 70%),linear-gradient(180deg,var(--red-lo),var(--red-deep))}
 .ph span{font-family:var(--accent);font-style:italic;font-weight:700;font-size:54px;color:var(--bone)}
 .ph i{position:absolute;left:10px;top:9px;font-style:normal;font-family:var(--title);font-size:11px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase}
+.ph.has{background:#fff}
+.ph img{width:100%;height:100%;object-fit:contain;display:block}
+.ph.has i{color:var(--red-lo);background:rgba(255,255,255,.88);padding:2px 6px;border-radius:6px;z-index:1}
+.garments img{width:100%;aspect-ratio:1;object-fit:contain;background:#fff;border-radius:10px;margin-bottom:8px}
 .card .tx{padding:10px 12px 13px;display:flex;flex-direction:column;gap:3px}
 .card .nm{font-family:var(--title);font-weight:600;text-transform:uppercase;letter-spacing:.03em;font-size:17px;line-height:1.15}
 .price{font-family:var(--title);font-weight:600;font-variant-numeric:tabular-nums;font-size:18px}
@@ -165,6 +169,7 @@ h2{margin:0;font-family:var(--title);font-weight:600;letter-spacing:.16em;text-t
 
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
 <script src="data.js"></script>
+<script src="fotos.js"></script>
 <script>
 // Contacto y pago
 const WHATSAPP = '59171520501';
@@ -209,7 +214,10 @@ const rank = g => { const x = ORDER.indexOf(g); return x < 0 ? 99 : x; };
 const srank = s => { const x = SIZE_ORDER.indexOf(s); return x < 0 ? 999 : x; };
 const measuresFor = i => { const sc = SCODE[i.school];
   const hit = MEDIDAS.find(m => m[0] === i.g && m[1] === i.size && m[2] === sc) || MEDIDAS.find(m => m[0] === i.g && m[1] === i.size && m[2] === '*');
-  return hit ? hit[3] : null; };
+  if (hit) return {m: hit[3], aprox: false};
+  const a = medidasAprox(i.g, i.size); return a ? {m: a, aprox: true} : null; };
+const photoFor = (school, g, sex, n) => { const k = school + '|' + g;
+  return PHOTOS[k + '|#' + n] || PHOTOS[k + '|' + sex] || (sex === 'U' && S.sex && PHOTOS[k + '|' + S.sex]) || PHOTOS[k] || null; };
 const go_ = p => "data-go='" + esc(JSON.stringify(p)) + "'";
 const waLink = msg => 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(msg);
 
@@ -227,13 +235,13 @@ function trail(){
   if (S.view === 'home') return '';
   if (S.view === 'pay') return '<nav class="trail"><button class="back" ' + go_(S.prev || {view:'home'}) + '>← Seguir eligiendo</button></nav>';
   const t = [], add = (lb, p) => t.push('<button ' + go_(p) + '>' + esc(lb) + '</button>');
-  const at = v => ['sex','schools','garments','sizes','items','item','cgarments','csizes','cresult'].indexOf(v);
+  const at = v => ['sex','schools','gallery','garments','sizes','items','item','cgarments','csizes','cresult'].indexOf(v);
   const now = at(S.view);
   add('Inicio', {view:'home'});
   add(S.type === 'uni' ? 'Uniformes' : 'Ropa casual', {view:'sex'});
   if (S.sex && now > 0) add(GNAME[S.sex], {view: S.type === 'uni' ? 'schools' : 'cgarments'});
   if (S.type === 'uni') {
-    if (S.school && now > at('schools')) add(SNAME[S.school], {view:'garments'});
+    if (S.school && now > at('schools')) add(SNAME[S.school], {view: COUNT[S.school] ? 'garments' : 'gallery'});
     if (S.g && now > at('garments')) add(gname(S.g), {view:'sizes'});
     if (S.size && now > at('sizes')) add('Talla ' + S.size, {view:'sizes'});
   } else {
@@ -243,7 +251,9 @@ function trail(){
   return '<nav class="trail" aria-label="Pasos">' + t.join('') + '</nav>';
 }
 const label = (small, big) => '<div class="label"><div><small>' + small + '</small><h1>' + big + '</h1></div></div>';
-const ph = i => '<div class="ph" aria-hidden="true"><i>' + esc(SNAME[i.school]) + '</i><span>' + esc(gname(i.g).charAt(0)) + '</span></div>';
+const phImg = (f, alt, school) => '<div class="ph' + (f ? ' has' : '') + '"><i>' + esc(SNAME[school]) + '</i>' +
+  (f ? '<img loading="lazy" src="fotos/' + f + '.jpg" alt="' + esc(alt) + '">' : '<span aria-hidden="true">' + esc(alt.charAt(0)) + '</span>') + '</div>';
+const ph = i => phImg(photoFor(i.school, i.g, i.sex, seen[i.k] > 1 ? i.n : 0), title(i), i.school);
 const sizeButtons = (sizes, patchFor) => {
   let h = '', rest = sizes.filter(s => !SIZE_ORDER.includes(s)), used = new Set();
   // En camisas, el 16 es talla de cuello: ese grupo va primero
@@ -294,13 +304,23 @@ const VIEWS = {
   schools(){
     return label('Uniforme escolar · ' + GNAME[S.sex], '¿De qué colegio?') + '<div class="list">' + SCHOOLS.map(([k,n]) => COUNT[k]
       ? '<button class="row" ' + go_({view:'garments', school:k, g:null, size:null}) + '>' + esc(n) + '<small>Ver prendas</small></button>'
+      : GALLERY[k] ? '<button class="row" ' + go_({view:'gallery', school:k, g:null, size:null}) + '>' + esc(n) + '<small>Ver fotos</small></button>'
       : '<button class="row" disabled>' + esc(n) + '<small>Próximamente</small></button>').join('') + '</div>';
+  },
+  gallery(){
+    const list = GALLERY[S.school].filter(x => x[1] === 'U' || x[1] === S.sex);
+    return label(SNAME[S.school] + ' · ' + GNAME[S.sex], 'Prendas del colegio') +
+      '<p class="lead">Estamos cargando tallas y precios de este colegio. Toca una prenda para consultarla por WhatsApp.</p>' +
+      '<div class="cards">' + list.map(([nm,, f]) => '<a class="card glass" style="text-decoration:none" target="_blank" rel="noopener" href="' +
+        waLink('Hola STAND UP, quiero consultar por ' + nm.toLowerCase() + ' del uniforme de ' + SNAME[S.school] + ' (' + GNAME[S.sex].toLowerCase() + '). ¿Qué tallas y precios tienen?') + '">' +
+        phImg(f, nm, S.school) + '<div class="tx"><span class="nm">' + esc(nm) + '</span><span class="noprice">Consultar por WhatsApp</span></div></a>').join('') + '</div>';
   },
   garments(){
     const p = pool(), by = {};
     p.forEach(i => { (by[i.g] = by[i.g] || new Set()).add(i.size); });
     const gs = Object.keys(by).sort((a,b) => rank(a) - rank(b));
-    const btn = g => '<button ' + go_({view:'sizes', g, size:null}) + '><b>' + esc(gname(g)) + '</b><span>' + by[g].size + (by[g].size === 1 ? ' talla' : ' tallas') + '</span></button>';
+    const thumb = g => { const f = photoFor(S.school, g, S.sex, 1); return f ? '<img loading="lazy" src="fotos/' + f + '.jpg" alt="">' : ''; };
+    const btn = g => '<button ' + go_({view:'sizes', g, size:null}) + '>' + thumb(g) + '<b>' + esc(gname(g)) + '</b><span>' + by[g].size + (by[g].size === 1 ? ' talla' : ' tallas') + '</span></button>';
     const main = gs.filter(g => !ACC.has(g)), acc = gs.filter(g => ACC.has(g));
     return label(SNAME[S.school] + ' · ' + GNAME[S.sex], '¿Qué prenda buscas?') +
       '<div class="garments">' + main.map(btn).join('') + '</div>' +
@@ -320,8 +340,9 @@ const VIEWS = {
       label(SNAME[i.school], esc(title(i))) +
       '<dl class="facts"><div><dt>Talla</dt><dd>' + esc(i.size) + '</dd></div><div><dt>Para</dt><dd>' + ({V:'Varón',M:'Mujer',U:'Varón y mujer'}[i.sex]) + '</dd></div><div><dt>Colegio</dt><dd>' + esc(SNAME[i.school]) + '</dd></div></dl>' +
       (i.price != null ? '<div class="bigprice"><small>Bs</small>' + i.price + '</div>' : '<div class="note">El precio de esta prenda todavía no está cargado. Agrégala al pedido y te lo confirmamos por WhatsApp.</div>') +
-      '<div class="group"><h2>Medidas</h2>' + (m
-        ? '<table class="measures"><tbody>' + Object.entries(m).map(([k,v]) => '<tr><td>' + esc(k) + '</td><td>' + esc(v) + ' cm</td></tr>').join('') + '</tbody></table>'
+      '<div class="group"><h2>' + (m && m.aprox ? 'Medidas aproximadas' : 'Medidas') + '</h2>' + (m
+        ? '<table class="measures"><tbody>' + Object.entries(m.m).map(([k,v]) => '<tr><td>' + esc(k) + '</td><td>' + esc(v) + ' cm</td></tr>').join('') + '</tbody></table>' +
+          (m.aprox ? '<p class="lead" style="font-size:13px">Medidas de referencia con la prenda extendida. Si necesitas la medida exacta, escríbenos.</p>' : '')
         : '<div class="note">Estamos cargando las medidas de esta talla. Si tienes dudas, escríbenos y te las pasamos.</div>') + '</div>' +
       '<div class="qty"><span>Cantidad</span><button data-q="-1" aria-label="Quitar una">−</button><output id="qty">' + S.q + '</output><button data-q="1" aria-label="Agregar una">+</button></div>' +
       '<div class="actions"><button class="btn primary full" data-add="pay">Comprar</button><button class="btn full" data-add="stay">Agregar y seguir</button></div>' +
